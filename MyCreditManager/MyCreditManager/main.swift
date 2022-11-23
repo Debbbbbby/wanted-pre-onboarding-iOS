@@ -110,6 +110,9 @@ while isRun {
 }
 
 // MARK: 1. 학생추가
+
+/// 학생 정보를 등록하는 기능
+/// - Parameter name: 등록하기 원하는 학생명
 func insertStudent(_ name: String) {
     if studentInfo.filter({$0.name == name}).count != 0 {
         print("\(name)은 이미 존재하는 학생입니다. 추가하지 않습니다.")
@@ -121,6 +124,9 @@ func insertStudent(_ name: String) {
 }
 
 // MARK: 2. 학생삭제
+
+/// 학생의 정보를 삭제하는 기능
+/// - Parameter name: 삭제하기 원하는 학생명
 func deleteStudent(_ name: String) {
     if let index = studentInfo.firstIndex(where: {$0.name == name}) {
         studentInfo.remove(at: index)
@@ -131,6 +137,12 @@ func deleteStudent(_ name: String) {
 }
 
 // MARK: 3. 성적추가(변경)
+
+/// 학생의 과목별 성적이 기존에 존재하지 않으면 추가, 존재하면 변경해주는 기능
+/// - Parameters:
+///   - name: 성적을 변경하기 원하는 학생명
+///   - subject: 과목명
+///   - grade: 성적 정보
 func updateGrade(name:String, subject: String, grade: String) {
     // 학생 존재 여부 체크
     if let studentIdx = studentInfo.firstIndex(where: { $0.name == name }) {
@@ -151,6 +163,11 @@ func updateGrade(name:String, subject: String, grade: String) {
 }
 
 // MARK: 4. 성적삭제
+
+/// 학생의 특정 성적 정보를 삭제하는 기능
+/// - Parameters:
+///   - name: 학생명
+///   - subject: 과목명
 func deleteGrade(name: String, subject: String) {
     // 학생 존재 여부 체크
     if let studentIdx = studentInfo.firstIndex(where: { $0.name == name }) {
@@ -168,6 +185,9 @@ func deleteGrade(name: String, subject: String) {
 }
 
 // MARK: 5. 평점보기
+
+/// 학생의 과목별 성적과 평점 정보를 출력하는 기능
+/// - Parameter name: 학생명
 func getAverage(_ name: String) {
     // 학생 존재 여부 체크
     if let idx = studentInfo.firstIndex(where: { $0.name == name }) {
@@ -183,9 +203,9 @@ func getAverage(_ name: String) {
     }
 }
 
-/// 성적을 점수로 변환하는 함수
+/// 성적을 점수로 변환하는 기능
 /// - Parameter grade: 기존에 저장되어있는 성적 정보 ( 예: A+, C-, F 등 )
-/// - Returns: 0.0 ~ 4.5 사이의 Double형 점수
+/// - Returns: 0.0 ~ 4.5 사이의 점수
 func getScore(_ grade: String) -> Double {
     switch grade {
     case "A+":
