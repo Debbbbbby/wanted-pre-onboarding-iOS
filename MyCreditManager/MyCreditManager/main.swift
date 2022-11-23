@@ -43,7 +43,7 @@ while isRun {
     case "1":
         print("추가할 할생의 이름을 입력해주세요.")
         let name = readLine() ?? ""
-        if (name.range(of: #"^(?:[A-Z][a-z]{1,20}){1}$"#, options: .regularExpression) != nil) {
+        if nameCheck(name) {
             insertStudent(name)
         } else {
             print("입력이 잘못되었습니다. 다시 확인해주세요.")
@@ -52,7 +52,7 @@ while isRun {
     case "2":
         print("삭제할 할생의 이름을 입력해주세요.")
         let name = readLine() ?? ""
-        if (name.range(of: #"^(?:[A-Z][a-z]{1,20}){1}$"#, options: .regularExpression) != nil) {
+        if nameCheck(name) {
             deleteStudent(name)
         } else {
             print("입력이 잘못되었습니다. 다시 확인해주세요.")
@@ -68,7 +68,7 @@ while isRun {
         let array = input.split(separator: " ").map{ String($0) }
         if array.count == 3 {
             let (name, subject, grade) = (array[0], array[1], array[2])
-            if (grade.range(of: #"^[A-DF][+-]?$"#, options: .regularExpression) != nil) {
+            if gradeCheck(grade) {
                 updateGrade(name: name, subject: subject, grade: grade)
             } else {
                 print("성적이 양식에 맞게 입력되지 않았습니다. 다시 시도해주세요.")
@@ -96,7 +96,7 @@ while isRun {
     case "5":
         print("평점을 알고싶은 학생의 이름을 입력해주세요")
         let name = readLine() ?? ""
-        if (name.range(of: #"^(?:[A-Z][a-z]{1,20}){1}$"#, options: .regularExpression) != nil) {
+        if nameCheck(name) {
             getAverage(name)
         } else {
             print("입력이 잘못되었습니다. 다시 확인해주세요.")
@@ -227,4 +227,27 @@ func getScore(_ grade: String) -> Double {
     default:
         return 0.0
     }
+}
+
+// MARK: 입력 체크
+
+/// 이름이 형식에 맞는지 체크
+/// - Parameter name: 확인하기 원하는 이름
+/// - Returns: 정규식과 일치하면 true, 일치하지 않으면 false
+func nameCheck(_ name: String) -> Bool {
+    return (name.range(of: #"^(?:[A-Z][a-z]{1,20}){1}$"#, options: .regularExpression) != nil) ? true : false
+}
+
+/// 성적이 형식에 맞는지 체크
+/// - Parameter grade: 확인하기 원하는 성적
+/// - Returns: 정규식과 일치하면 true, 일치하지 않으면 false
+func gradeCheck(_ grade: String) -> Bool {
+    var result = false
+    if (grade.range(of: #"^[A-DF][+-]?$"#, options: .regularExpression) != nil) {
+        if (grade.contains("F")) && (grade.count > 1) {
+            return false // 성적이 F-, F+ 이라면 false
+        }
+        result = true
+    }
+    return result
 }
