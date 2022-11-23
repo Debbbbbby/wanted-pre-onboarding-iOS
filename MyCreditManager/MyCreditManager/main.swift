@@ -25,12 +25,13 @@ while isRun {
     
     print("\n>> 현재 studentInfo")
     for info in studentInfo {
-        print("학생명 : \(info.name)")
+        print("< 학생명 : \(info.name) >")
         for i in 0 ..< info.subject.count {
             print("과목명 : \(info.subject[i].title), 성적 : \(info.subject[i].grade)")
         }
     }
     print()
+    
     print("""
           원하는 기능을 입력해주세요
           1: 학생추가, 2: 학생삭제, 3: 성적추가(변경), 4: 성적삭제, 5: 평점보기, X: 종료
@@ -76,7 +77,22 @@ while isRun {
             print("입력이 잘못되었습니다. 다시 확인해주세요.")
         }
     case "4":
-        print("성적삭제")
+        print("""
+              성적을 삭제할 학생의 이름, 과목 이름을 띄어쓰기로 구분하여 차례로 작성해주세요.
+              입력예) Mickey Swift
+              """)
+        guard let input = readLine() else { break }
+        if input != "" {
+            let array = input.split(separator: " ").map{ String($0) }
+            if array.count == 2 {
+                let (name, subject) = (array[0], array[1])
+                deleteGrade(name: name, subject: subject)
+            }else{
+                print("입력이 잘못되었습니다. 다시 확인해주세요")
+            }
+        }else {
+            print("입력이 잘못되었습니다. 다시 확인해주세요")
+        }
     case "5":
         print("평점보기")
     case "X":
@@ -126,4 +142,21 @@ func updateGrade(name:String, subject: String, grade: String) {
         print("\(name) 학생을 찾지 못했습니다.")
     }
     
+}
+
+// MARK: 4. 성적삭제
+func deleteGrade(name: String, subject: String) {
+    // 학생 존재 여부 체크
+    if let studentIdx = studentInfo.firstIndex(where: { $0.name == name }) {
+        // 과목 존재 여부 체크
+        if let subjectIdx = studentInfo[studentIdx].subject.firstIndex(where: { $0.title == subject}) {
+            // 과목이 존재하는 경우 삭제
+            studentInfo[studentIdx].subject.remove(at: subjectIdx)
+            print("\(name) 학생의 \(subject) 과목의 성적이 삭제되었습니다.")
+        } else {
+            print("\(name) 학생의 \(subject) 과목이 존재하지 않습니다.")
+        }
+    }else {
+        print("\(name) 학생을 찾지 못했습니다.")
+    }
 }
