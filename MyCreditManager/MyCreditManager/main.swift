@@ -87,14 +87,20 @@ while isRun {
             if array.count == 2 {
                 let (name, subject) = (array[0], array[1])
                 deleteGrade(name: name, subject: subject)
-            }else{
+            } else {
                 print("입력이 잘못되었습니다. 다시 확인해주세요")
             }
-        }else {
+        } else {
             print("입력이 잘못되었습니다. 다시 확인해주세요")
         }
     case "5":
-        print("평점보기")
+        print("평점을 알고싶은 학생의 이름을 입력해주세요")
+        let name = readLine() ?? ""
+        if (name.range(of: #"^(?:[A-Z][a-z]{1,20}){1}$"#, options: .regularExpression) != nil) {
+            getAverage(name)
+        } else {
+            print("입력이 잘못되었습니다. 다시 확인해주세요.")
+        }
     case "X":
         print("프로그램을 종료합니다...")
         isRun = false; break
@@ -156,7 +162,49 @@ func deleteGrade(name: String, subject: String) {
         } else {
             print("\(name) 학생의 \(subject) 과목이 존재하지 않습니다.")
         }
-    }else {
+    } else {
         print("\(name) 학생을 찾지 못했습니다.")
+    }
+}
+
+// MARK: 5. 평점보기
+func getAverage(_ name: String) {
+    // 학생 존재 여부 체크
+    if let idx = studentInfo.firstIndex(where: { $0.name == name }) {
+        var total: Double = 0.0
+        studentInfo[idx].subject.forEach { subjectInfo in
+            print("\(subjectInfo.title): \(subjectInfo.grade)")
+            total += getScore(subjectInfo.grade)
+        }
+        let average = String(format: "%.2f", total / Double(studentInfo[idx].subject.count))
+        print("평점 : \(average)")
+    } else {
+        print("\(name) 학생을 찾지 못했습니다.")
+    }
+}
+
+/// 성적을 점수로 변환하는 함수
+/// - Parameter grade: 기존에 저장되어있는 성적 정보 ( 예: A+, C-, F 등 )
+/// - Returns: 0.0 ~ 4.5 사이의 Double형 점수
+func getScore(_ grade: String) -> Double {
+    switch grade {
+    case "A+":
+        return 4.5
+    case "A":
+        return 4.0
+    case "B+":
+        return 3.5
+    case "B":
+        return 3.0
+    case "C+":
+        return 2.5
+    case "C":
+        return 2.0
+    case "D+":
+        return 1.5
+    case "D":
+        return 1.0
+    default:
+        return 0.0
     }
 }
