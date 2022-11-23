@@ -82,14 +82,10 @@ while isRun {
               입력예) Mickey Swift
               """)
         guard let input = readLine() else { break }
-        if input != "" {
-            let array = input.split(separator: " ").map{ String($0) }
-            if array.count == 2 {
-                let (name, subject) = (array[0], array[1])
-                deleteGrade(name: name, subject: subject)
-            } else {
-                print("입력이 잘못되었습니다. 다시 확인해주세요")
-            }
+        let array = input.split(separator: " ").map{ String($0) }
+        if array.count == 2 {
+            let (name, subject) = (array[0], array[1])
+            deleteGrade(name: name, subject: subject)
         } else {
             print("입력이 잘못되었습니다. 다시 확인해주세요")
         }
@@ -159,7 +155,6 @@ func updateGrade(name:String, subject: String, grade: String) {
     } else {
         print("\(name) 학생을 찾지 못했습니다.")
     }
-    
 }
 
 // MARK: 4. 성적삭제
