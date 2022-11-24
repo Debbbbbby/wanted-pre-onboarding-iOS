@@ -7,8 +7,11 @@
 
 import Foundation
 
-var isRun:Bool = true // 프로그램 실행 상태
-var studentInfo: [Student] = [] // [MyCreditManager.Student(name: "학생이름", subject: [])]
+// 프로그램 실행 상태
+var isRun:Bool = true
+
+// 학생 정보 저장 : [MyCreditManager.Student(name: "학생이름", subject: [])]
+var studentInfo: [Student] = []
 
 struct Student {
     let name: String
@@ -20,7 +23,7 @@ struct Subject {
     var grade: String
 }
 
-// MARK: 전체 메뉴
+// MARK: 프로그램 실행
 while isRun {
     
     print("\n>> 현재 studentInfo")
@@ -57,6 +60,7 @@ while isRun {
         } else {
             print("입력이 잘못되었습니다. 다시 확인해주세요.")
         }
+        
     case "3":
         print("""
               성적을 추가할 학생의 이름, 과목 이름, 성적(A+, A, F 등)을 띄어쓰기로 구분하여 차례로 작성해주세요.
@@ -76,6 +80,7 @@ while isRun {
         } else {
             print("입력이 잘못되었습니다. 다시 확인해주세요.")
         }
+        
     case "4":
         print("""
               성적을 삭제할 학생의 이름, 과목 이름을 띄어쓰기로 구분하여 차례로 작성해주세요.
@@ -89,6 +94,7 @@ while isRun {
         } else {
             print("입력이 잘못되었습니다. 다시 확인해주세요")
         }
+        
     case "5":
         print("평점을 알고싶은 학생의 이름을 입력해주세요")
         let name = readLine() ?? ""
@@ -97,16 +103,17 @@ while isRun {
         } else {
             print("입력이 잘못되었습니다. 다시 확인해주세요.")
         }
+        
     case "X":
         print("프로그램을 종료합니다...")
-        isRun = false; break
+        isRun = false
+        
     default:
         print("뭔가 입력이 잘못되었습니다. 1~5 사이의 숫자 혹은 X를 입력해주세요.")
     }
 }
 
 // MARK: 1. 학생추가
-
 /// 학생 정보를 등록하는 기능
 /// - Parameter name: 등록하기 원하는 학생명
 func insertStudent(_ name: String) {
@@ -120,7 +127,6 @@ func insertStudent(_ name: String) {
 }
 
 // MARK: 2. 학생삭제
-
 /// 학생의 정보를 삭제하는 기능
 /// - Parameter name: 삭제하기 원하는 학생명
 func deleteStudent(_ name: String) {
@@ -133,7 +139,6 @@ func deleteStudent(_ name: String) {
 }
 
 // MARK: 3. 성적추가(변경)
-
 /// 학생의 과목별 성적이 기존에 존재하지 않으면 추가, 존재하면 변경해주는 기능
 /// - Parameters:
 ///   - name: 성적을 변경하기 원하는 학생명
@@ -158,7 +163,6 @@ func updateGrade(name:String, subject: String, grade: String) {
 }
 
 // MARK: 4. 성적삭제
-
 /// 학생의 특정 성적 정보를 삭제하는 기능
 /// - Parameters:
 ///   - name: 학생명
@@ -180,7 +184,6 @@ func deleteGrade(name: String, subject: String) {
 }
 
 // MARK: 5. 평점보기
-
 /// 학생의 과목별 성적과 평점 정보를 출력하는 기능
 /// - Parameter name: 학생명
 func getAverage(_ name: String) {
@@ -224,8 +227,7 @@ func getScore(_ grade: String) -> Double {
     }
 }
 
-// MARK: 입력 체크
-
+// MARK: 입력 형식 체크
 /// 이름이 형식에 맞는지 체크
 /// - Parameter name: 확인하기 원하는 이름
 /// - Returns: 정규식과 일치하면 true, 일치하지 않으면 false
