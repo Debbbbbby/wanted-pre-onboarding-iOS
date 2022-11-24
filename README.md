@@ -258,7 +258,7 @@ while isRun { // isRun이 true라면 전체 메뉴 실행 상태
     ...
     case "X": // input이 X라면
             print("프로그램을 종료합니다...")
-            isRun = false; break // isRun을 false로 변경하고 break
+            isRun = false // isRun을 false로 변경하여 실행 종료
 }
 ```
 
